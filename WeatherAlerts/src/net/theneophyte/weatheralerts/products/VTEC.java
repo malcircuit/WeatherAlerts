@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * <p><a href="http://www.nws.noaa.gov/om/vtec/">http://www.nws.noaa.gov/om/vtec/</a></p>
  * @author Matt Sutter
  */
-public class VTEC {
+public class VTEC{
 	
 	private static final String VTEC_REGEX = 
 			"([OTEX])"
@@ -24,24 +24,25 @@ public class VTEC {
 			+ "\\.(\\d{6}T\\d{4}Z)"
 			+ "-(\\d{6}T\\d{4}Z)";
 	
-	private static final int CLASS = 0;
-	private static final int ACTION = 1;
-	private static final int OFFICE_ID = 2;
-	private static final int PHENOMENA = 3;
-	private static final int SIGNIFICANCE = 4;
-	private static final int ETN = 5;
-	private static final int BEGIN_DATE = 6;
-	private static final int END_DATE = 7;
+	private static final int 
+			CLASS = 1,
+			ACTION = 2,
+			OFFICE_ID = 3,
+			PHENOMENA = 4,
+			SIGNIFICANCE = 5,
+			ETN = 6,
+			BEGIN_DATE = 7,
+			END_DATE = 8;
 
 	private static final String VTEC_DATE_FORMAT = "yyMMdd'T'HHmm'Z'";
 	
-	private final long mBeginDate;
-	private final long mEndDate;
-	private final char mProductClass;
-	private final char mSignificance;
-	private final String mAction;
-	private final String mPhenomena;
-	private final String mOfficeId;
+	private final long mBeginDate, mEndDate;
+	private final char mProductClass, mSignificance;
+	private final String 
+			mAction,
+			mPhenomena,
+			mOfficeId;
+	
 	private final int mEventTrackingNum;
 	
 	/**
@@ -65,6 +66,28 @@ public class VTEC {
 		else {
 			throw new IllegalArgumentException("Input String does not contain a valid VTEC identifier.");
 		}
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (this == o){
+			return true;
+		}
+		
+		if (!(o instanceof VTEC)){
+			return false;
+		}
+		
+		final VTEC lhs = (VTEC) o;
+		
+		return (lhs.mProductClass == mProductClass)
+			&& (lhs.mSignificance == mSignificance)
+			&& (lhs.mEventTrackingNum == mEventTrackingNum)
+			&& (lhs.mBeginDate == mBeginDate)
+			&& (lhs.mEndDate == mEndDate)
+			&& (lhs.mAction.equals(mAction))
+			&& (lhs.mOfficeId.equals(mOfficeId))
+			&& (lhs.mPhenomena.equals(mPhenomena));
 	}
 	
 	/**
