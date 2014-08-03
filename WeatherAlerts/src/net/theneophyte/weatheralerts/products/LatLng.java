@@ -16,8 +16,6 @@ public class LatLng {
 			LATITUDE = 0,
 			LONGITUDE = 1;
 	
-	private static final float FIXED_POINT_DIVISOR = 1000f;
-	
 	public final double latitude;
 	public final double longitude;
 
@@ -57,16 +55,5 @@ public class LatLng {
 	public LatLng(final LatLng coords){
 		this.latitude = coords.latitude;
 		this.longitude = coords.longitude;
-	}
-	
-	/**
-	 * Helper for loading radar sites from the database. The latitude and longitude values 
-	 * stored in the database are fixed-point integers (three fractional digits).
-	 * @param lat - latitude
-	 * @param lng - longitude 
-	 * @return new {@link LatLng} object.
-	 */
-	public static LatLng fromFixedPointInt(final int lat, final int lng){
-		return new LatLng(lat / FIXED_POINT_DIVISOR, lng / FIXED_POINT_DIVISOR);
 	}
 }
