@@ -56,4 +56,23 @@ public class LatLng {
 		this.latitude = coords.latitude;
 		this.longitude = coords.longitude;
 	}
+	
+	public boolean isNull(){
+		return latitude == 0.0d || longitude == 0.0d;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (this == o){
+			return true;
+		}
+		
+		if (!(o instanceof LatLng)){
+			return false;
+		}
+		
+		LatLng lhs = (LatLng) o;
+		
+		return lhs.latitude == this.latitude && lhs.longitude == this.longitude;
+	}
 }
