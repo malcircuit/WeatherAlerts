@@ -8,6 +8,11 @@ import net.theneophyte.weatheralerts.AlertsParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+/**
+ * Class for enclosing all of the useful information parsed from a particular weather alert from the NWS alerts XML feed. 
+ * @author Matt Sutter
+ *
+ */
 public class Alert implements CapConstants{
 	
 	private static final int 
@@ -95,7 +100,12 @@ public class Alert implements CapConstants{
 			mVTEC = null;
 		}
 	}
-	
+
+	/**
+	 * Parses FIPS codes out the string from an alert entry.
+	 * @param fipsValues String containing FIPS codes separated by spaces.
+	 * @return int array containing the FIPS codes
+	 */
 	private final int[]	parseFips(String fipsValues){
 		final String[] values = fipsValues.split("\\s");
 		final int[] fips = new int[values.length];
@@ -105,7 +115,14 @@ public class Alert implements CapConstants{
 		
 		return fips;
 	}
-	
+
+	/**
+	 * Builds a new {@link Alert} by parsing the information from the alerts feed.
+	 * @param parser
+	 * @return
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	public static Alert readAlert(XmlPullParser parser) throws XmlPullParserException, IOException{
 		parser.require(XmlPullParser.START_TAG, null, ALERT_ENTRY);
 
@@ -183,6 +200,12 @@ public class Alert implements CapConstants{
 		return new Alert(alertValues);
 	}
 
+	/**
+	 * Finds the next start tag in the XML file.
+	 * @param parser 
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static void nextStartTag(XmlPullParser parser) throws XmlPullParserException, IOException{
 		int type = parser.getEventType();
 		
@@ -195,6 +218,12 @@ public class Alert implements CapConstants{
 		}
 	}
 	
+	/**
+	 * Finds the next end tag in the XML file.
+	 * @param parser
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static void nextEndTag(XmlPullParser parser) throws XmlPullParserException, IOException{
 		int type = parser.getEventType();
 
@@ -206,7 +235,14 @@ public class Alert implements CapConstants{
 			type = parser.nextToken();
 		}
 	}
-	
+
+	/**
+	 * Parses the value contained in the "author" tag.
+	 * @param parser
+	 * @return
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static String readAuthor(XmlPullParser parser) throws XmlPullParserException, IOException{
 		parser.require(XmlPullParser.START_TAG, null, ALERT_AUTHOR);
 		
@@ -221,7 +257,14 @@ public class Alert implements CapConstants{
 		
 		return author;
 	}
-	
+
+	/**
+	 * Parses the values contained in the "cap:geocode" tag.
+	 * @param parser
+	 * @param alertValues
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static void readGeocodes(XmlPullParser parser, String[] alertValues) throws XmlPullParserException, IOException{
 		parser.require(XmlPullParser.START_TAG, null, ALERT_GEOCODE);
 		
@@ -252,6 +295,13 @@ public class Alert implements CapConstants{
 		parser.require(XmlPullParser.END_TAG, null, ALERT_GEOCODE);
 	}
 
+	/**
+	 * Parses the VTEC string contained in the "cap:parameter" tag.
+	 * @param parser
+	 * @return
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	public static String readVTEC(XmlPullParser parser) throws XmlPullParserException, IOException{
 		parser.require(XmlPullParser.START_TAG, null, CAP_PARAMETER);
 
@@ -271,7 +321,7 @@ public class Alert implements CapConstants{
 
 		return vtec;
 	}
-	
+
 	@Override
 	public String toString(){
 		return mEvent;

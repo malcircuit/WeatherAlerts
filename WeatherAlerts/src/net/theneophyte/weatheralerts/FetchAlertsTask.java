@@ -10,11 +10,13 @@ import java.util.List;
 import net.theneophyte.weatheralerts.products.Alert;
 
 import org.xmlpull.v1.XmlPullParserException;
-
-import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
 
+/**
+ * Class for asynchronously fetching and parsing the NWS alerts feed.
+ * @author Matt Sutter
+ *
+ */
 public abstract class FetchAlertsTask extends AsyncTask<Integer, Void, List<Alert>>{
 	
 	private final String ALERTS_URL = "http://alerts.weather.gov/cap/us.atom";
