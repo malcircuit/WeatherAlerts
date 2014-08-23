@@ -1,25 +1,24 @@
 package net.theneophyte.weatheralerts.products;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class LatLngBox {
 	
-	private final double mLeft, mRight, mTop, mBottom;
+	public final double minLong, maxLong, maxLat, minLat;
 	
-	public LatLngBox(final double top, final double bottom, final double right, final double left){
-		mTop = top;
-		mBottom = bottom;
-		mRight = right;
-		mLeft = left;
+	public LatLngBox(final double latTop, final double latBottom, final double longRight, final double longLeft){
+		maxLat = latTop;
+		minLat = latBottom;
+		maxLong = longRight;
+		minLong = longLeft;
 	}
 	
 	public LatLngBox(LatLng northeast, LatLng southwest){
-		mTop = northeast.latitude;
-		mRight = northeast.longitude;
-		mBottom = southwest.latitude;
-		mLeft = southwest.longitude;
+		maxLat = northeast.latitude;
+		maxLong = northeast.longitude;
+		minLat = southwest.latitude;
+		minLong = southwest.longitude;
 	}
 	
 	public static LatLngBox maxBounds(List<LatLng> boundary){
@@ -51,8 +50,8 @@ public class LatLngBox {
 	}
 	
 	public boolean contains(LatLng point){
-		if (point.latitude <= mTop && point.latitude >= mBottom){
-			if (point.longitude < mRight && point.longitude >= mLeft){
+		if (point.latitude <= maxLat && point.latitude >= minLat){
+			if (point.longitude < maxLong && point.longitude >= minLong){
 				return true;
 			}
 		}
@@ -61,11 +60,11 @@ public class LatLngBox {
 	}
 
 	public LatLng getNortheastCorner(){
-		return new LatLng(mTop, mRight);
+		return new LatLng(maxLat, maxLong);
 	}
 	
 	public LatLng getSouthwestCorner(){
-		return new LatLng(mBottom, mLeft);
+		return new LatLng(minLat, minLong);
 	}
 	
 }
